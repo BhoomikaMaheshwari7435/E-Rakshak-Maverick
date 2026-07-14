@@ -41,7 +41,7 @@ Tables:
 
 
 
-## Step 2 - Define Columns (V.2.0, We Are Not Using It Now.)
+## Step 2 - Define Columns 
 
 
 ### Table 1: Users
@@ -60,7 +60,7 @@ Tables:
 
 
 
-### Table 2: Sessions
+### Table 2: Sessions (V.2.0, We Are Not Using It Now.)
 
 | Column | Type | Required | Unique | Description |
 |---------|------|----------|--------|-------------|
