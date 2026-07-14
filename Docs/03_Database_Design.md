@@ -120,3 +120,16 @@ Tables:
 | preferred_output_language | ENUM | 🟢 Core | No | Gujarati, Hindi, English |
 | created_at | TIMESTAMP | 🟢 Core | No | AI analysis completion time |
 
+### Table 6: Settings
+
+| Column | Type | V1 | Unique | Description |
+|---------|------|----|--------|-------------|
+| setting_id | UUID | 🟢 Core | Yes | Primary Key |
+| user_id | UUID | 🟢 Core | Yes | References Users table |
+| language | ENUM | 🟢 Core | No | Gujarati, Hindi, English |
+| theme | ENUM | 🟢 Core | No | Light, Dark, System |
+| browser_notifications | BOOLEAN | 🟢 Core | No | Enable or Disable browser notifications |
+| email_notifications | BOOLEAN | 🟢 Core | No | Enable or Disable email notifications |
+| voice_explanation | BOOLEAN | 🟢 Core | No | Enable or Disable voice explanation |
+| created_at | TIMESTAMP | 🟢 Core | No | Record creation time |
+| updated_at | TIMESTAMP | 🟢 Core | No | Last updated time |
