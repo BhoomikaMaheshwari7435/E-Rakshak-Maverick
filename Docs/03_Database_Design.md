@@ -145,3 +145,38 @@ Tables:
 | voice_explanation | BOOLEAN | 🟢 Core | No | Enable or Disable voice explanation |
 | created_at | TIMESTAMP | 🟢 Core | No | Record creation time |
 | updated_at | TIMESTAMP | 🟢 Core | No | Last updated time |
+
+## Step 3 - Database Relationships
+### Relationship 1
+
+**Users (1) → Analysis_History (Many)**
+
+- Primary Key: `Users.user_id`
+- Foreign Key: `Analysis_History.user_id`
+- Relationship: One-to-Many (1:N)
+
+**Reason:**
+A single user can perform multiple scam analyses throughout their usage of the platform.
+
+### Relationship 2
+
+**Users (1) → Files (Many)**
+
+- Primary Key: `Users.user_id`
+- Foreign Key: `Files.user_id`
+- Relationship: One-to-Many (1:N)
+
+**Reason:**
+A single user can upload multiple files for scam analysis.
+
+### Relationship 3
+
+**Analysis_History (1) → AI_Results (1)**
+
+- Primary Key: `Analysis_History.analysis_id`
+- Foreign Key: `AI_Results.analysis_id`
+- Relationship: One-to-One (1:1)
+
+**Reason:**
+Each analysis request generates one AI analysis result.
+
