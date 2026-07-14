@@ -120,6 +120,18 @@ Tables:
 | preferred_output_language | ENUM | 🟢 Core | No | Gujarati, Hindi, English |
 | created_at | TIMESTAMP | 🟢 Core | No | AI analysis completion time |
 
+### Table 5: Reports
+
+| Column | Type | V1 | Unique | Description |
+|---------|------|----|--------|-------------|
+| report_id | UUID | 🟢 Core | Yes | Primary Key |
+| analysis_id | UUID | 🟢 Core | No | References Analysis_History |
+| report_title | VARCHAR(150) | 🟢 Core | No | Auto-generated report title |
+| report_format | ENUM | 🟢 Core | No | WEB, PDF |
+| report_url | TEXT | 🟢 Core | No | URL of generated report |
+| report_status | ENUM | 🟢 Core | No | GENERATED, FAILED |
+| generated_at | TIMESTAMP | 🟢 Core | No | Report generation time |
+
 ### Table 6: Settings
 
 | Column | Type | V1 | Unique | Description |
