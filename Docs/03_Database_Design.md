@@ -77,4 +77,15 @@ Tables:
 
 
 
-3
+### Table 2: Analysis_History
+
+| Column | Type | Required | Unique | Description |
+|---------|------|----------|--------|-------------|
+| analysis_id | UUID | Yes | Yes | Primary Key |
+| user_id | UUID | Yes | No | References Users table |
+| analysis_type | VARCHAR(30) | Yes | No | SMS, WhatsApp, Audio, QR, Image |
+| input_text | TEXT | No | No | Original text or transcript |
+| file_id | UUID | No | No | References Files table |
+| analysis_status | VARCHAR(20) | Yes | No | Pending, Processing, Completed, Failed |
+| analyzed_at | TIMESTAMP | Yes | No | Analysis Completion Time |
+| created_at | TIMESTAMP | Yes | No | Analysis Request Time |
