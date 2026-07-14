@@ -1,6 +1,8 @@
 Database Design For The Project....
 
-
+Do we really need it in V1?
+Can the project work without it?
+If we add it later, will it break the architecture?
 
 
 # Database Design (Version 1.0)
