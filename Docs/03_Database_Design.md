@@ -37,7 +37,9 @@ Tables:
 - Notifications
 
 
+
 ## Step 2 - Define Columns
+
 
 ### Table 1: Users
 
@@ -52,3 +54,24 @@ Tables:
 | updated_at | TIMESTAMP | Yes | No | Last Updated |
 | last_login | TIMESTAMP | No | No | Last Login |
 | account_status | VARCHAR(20) | Yes | No | Active / Suspended |
+
+
+
+### Table 2: Sessions
+
+| Column | Type | Required | Unique | Description |
+|---------|------|----------|--------|-------------|
+| session_id | UUID | Yes | Yes | Primary Key |
+| user_id | UUID | Yes | No | References Users table |
+| access_token | TEXT | Yes | Yes | JWT Access Token |
+| refresh_token | TEXT | Yes | Yes | Refresh Token |
+| device_type | VARCHAR(50) | Yes | No | Desktop / Android / iPhone |
+| browser | VARCHAR(50) | No | No | Browser Name |
+| ip_address | VARCHAR(45) | No | No | User IP Address |
+| expires_at | TIMESTAMP | Yes | No | Session Expiry Time |
+| created_at | TIMESTAMP | Yes | No | Login Time |
+| last_activity | TIMESTAMP | Yes | No | Last Activity |
+
+
+
+3
