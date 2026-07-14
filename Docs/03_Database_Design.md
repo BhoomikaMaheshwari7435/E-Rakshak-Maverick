@@ -180,3 +180,36 @@ A single user can upload multiple files for scam analysis.
 **Reason:**
 Each analysis request generates one AI analysis result.
 
+### Relationship 4
+
+**Analysis_History (1) → Reports (Many)**
+
+- Primary Key: `Analysis_History.analysis_id`
+- Foreign Key: `Reports.analysis_id`
+- Relationship: One-to-Many (1:N)
+
+**Reason:**
+A single analysis can generate multiple reports, such as a web report, PDF report, or reports in different languages.
+
+### Relationship 5
+
+**Users (1) → Settings (1)**
+
+- Primary Key: `Users.user_id`
+- Foreign Key: `Settings.user_id`
+- Relationship: One-to-One (1:1)
+
+**Reason:**
+Each user has one settings profile containing language preference, theme, notification preferences, and voice explanation settings.
+
+### Relationship 6
+
+**Files (1) → Analysis_History (Many)**
+
+- Primary Key: `Files.file_id`
+- Foreign Key: `Analysis_History.file_id`
+- Relationship: One-to-Many (1:N)
+
+**Reason:**
+A single uploaded file can be analyzed multiple times without requiring the user to upload it again.
+
