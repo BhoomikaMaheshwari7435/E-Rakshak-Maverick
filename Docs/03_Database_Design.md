@@ -41,7 +41,7 @@ Tables:
 
 
 
-## Step 2 - Define Columns V.2.0
+## Step 2 - Define Columns V.2.0, We Are Not Using It Now.
 
 
 ### Table 1: Users
