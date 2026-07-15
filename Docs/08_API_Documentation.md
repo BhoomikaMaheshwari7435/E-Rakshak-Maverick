@@ -1324,4 +1324,92 @@ Display Success Message
 ### Status
 🟢 Frozen (Version 1.0)
 
+
+## API 10 - System Health Check
+
+### Endpoint
+
+**GET** `/health`
+
+---
+
+### Purpose
+
+Checks whether the E-Rakshak Maverick backend service is running and available. This endpoint is primarily used for monitoring, deployment verification, debugging, and uptime checks.
+
+---
+
+### Authentication Required
+
+❌ No
+
+---
+
+### Request Parameters
+
+None
+
+---
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "status": "Healthy",
+  "service": "E-Rakshak Maverick API",
+  "version": "1.0.0",
+  "timestamp": "2026-07-15T10:30:00Z"
+}
+```
+
+---
+
+### Error Responses
+
+#### 503 Service Unavailable
+
+```json
+{
+  "success": false,
+  "status": "Unavailable",
+  "message": "Service is temporarily unavailable."
+}
+```
+
+---
+
+### Database Tables Used
+
+- None
+
+---
+
+### External Services
+
+- None
+
+---
+
+### API Flow
+
+```text
+Client
+   │
+   ▼
+GET /health
+   │
+   ▼
+Backend
+   │
+   ▼
+Check API Status
+   │
+   ▼
+Return Health Status
+```
+---
+
+### Status
+🟢 Frozen (Version 1.0)
 🟡 In Progress
