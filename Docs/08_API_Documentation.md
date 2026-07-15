@@ -338,40 +338,57 @@ Redirect to Login Page
 ### Status
 🟢 Frozen (Version 1.0)
 
-
 ## API 3 - Create Scam Analysis
 
 ### Endpoint
+
 **POST** `/analysis`
 
 ---
+
 ### Purpose
 
-Creates a new scam analysis request by accepting user input such as SMS text, WhatsApp message, QR code image, screenshot, document, or audio recording. The backend processes the content using AI, stores the analysis, and returns the final result.
+Creates a new scam analysis request by accepting user input such as an SMS, WhatsApp message, QR code image, screenshot, document, or audio recording. The backend processes the content using AI, stores the analysis, and returns the final analysis result.
 
 ---
+
 ### Authentication Required
+
 ✅ Yes
+
 ---
+
 ### Request Header
+
 ```http
 Authorization: Bearer <access_token>
 ```
+
 ---
+
 ### Request Body
+
 ```json
 {
   "analysis_type": "SMS | WHATSAPP | AUDIO | IMAGE | QR | DOCUMENT",
+  "response_language": "Gujarati | Hindi | English",
   "input_text": "string",
   "file": "binary"
 }
 ```
-> **Note:**
-> - `input_text` is required for SMS and WhatsApp analysis.
-> - `file` is required for Audio, Image, QR, and Document analysis.
-> - Only one type of input is expected per request.
+
+**Notes:**
+
+- `analysis_type` specifies the type of content to analyze.
+- `response_language` specifies the language in which the AI should return the explanation and voice output.
+- `input_text` is required for SMS and WhatsApp analysis.
+- `file` is required for Audio, Image, QR, and Document analysis.
+- Only one type of input is expected per request.
+
 ---
+
 ### Success Response (200 OK)
+
 ```json
 {
   "success": true,
@@ -381,65 +398,89 @@ Authorization: Bearer <access_token>
     "risk_score": 92,
     "danger_level": "DANGER",
     "scam_category": "Phishing",
-    "detailed_analysis": "...",
-    "explanation": "...",
-    "safe_next_steps": "...",
+    "detailed_analysis": "The message attempts to impersonate a trusted bank and creates urgency to steal sensitive information.",
+    "explanation": "This message contains a suspicious link and requests confidential information such as your OTP.",
+    "safe_next_steps": [
+      "Do not click the link.",
+      "Do not share your OTP.",
+      "Contact your bank using the official customer care number."
+    ],
     "detected_indicators": [
       "Suspicious URL",
       "Requests OTP",
-      "Creates Urgency"
+      "Creates Urgency",
+      "Fake Bank Name"
     ],
     "response_language": "Gujarati"
   }
 }
 ```
+
 ---
+
 ### Error Responses
+
 #### 400 Bad Request
+
 ```json
 {
   "success": false,
   "message": "Invalid or incomplete request."
 }
 ```
+
 #### 401 Unauthorized
+
 ```json
 {
   "success": false,
   "message": "Unauthorized access."
 }
 ```
+
 #### 413 Payload Too Large
+
 ```json
 {
   "success": false,
   "message": "Uploaded file exceeds the maximum allowed size."
 }
 ```
+
 #### 500 Internal Server Error
+
 ```json
 {
   "success": false,
   "message": "Analysis failed. Please try again."
 }
 ```
+
 ---
+
 ### Database Tables Used
+
 - Analysis_History
 - Files *(Only when a file is uploaded.)*
 - AI_Results
+
 ---
 ### External Services
 - OpenAI API
-- OCR Service *(for images/documents)*
-- Speech-to-Text *(for audio recordings)*
+- OCR Service *(Image / QR / Document Analysis)*
+- Speech-to-Text Service *(Audio Transcription)*
 ---
+
 ### API Flow
+
 ```text
 User
    │
    ▼
 Select Analysis Type
+   │
+   ▼
+Choose Response Language
    │
    ▼
 Enter Text / Upload File
@@ -454,19 +495,22 @@ Backend Validation
 Save Analysis_History
    │
    ▼
-Store File (if uploaded)
+Store File (If Uploaded)
    │
    ▼
-Run AI Analysis
+Extract Text (OCR / Speech-to-Text)
+   │
+   ▼
+AI Scam Analysis
    │
    ▼
 Save AI_Results
    │
    ▼
-Return Analysis Result
+Return Final Result
    │
    ▼
-Display Result to User
+Display Result & Voice Explanation
 ```
 ---
 ### Status
