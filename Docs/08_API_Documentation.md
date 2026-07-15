@@ -546,7 +546,10 @@ Authorization: Bearer <access_token>
 
 ### Request Parameters
 
-None
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| page | Integer | No | Page number (Default: 1) |
+| limit | Integer | No | Number of records per page (Default: 10) |
 
 ---
 
