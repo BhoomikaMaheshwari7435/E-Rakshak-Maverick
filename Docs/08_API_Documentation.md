@@ -229,7 +229,114 @@ Frontend Dashboard
 ---
 
 ### Status
-
 🟢 Frozen (Version 1.0)
+
+
+## API 2 - User Logout
+
+### Endpoint
+
+**POST** `/auth/logout`
+
+---
+
+### Purpose
+
+Logs out the currently authenticated user by invalidating the active session on the client and removing authentication credentials.
+
+---
+
+### Authentication Required
+
+✅ Yes
+
+---
+
+### Request Header
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+### Request Body
+
+```json
+{}
+```
+
+---
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "message": "Logout successful."
+}
+```
+
+---
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized access."
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Logout failed."
+}
+```
+---
+### Database Tables Used
+- None
+---
+### External Services
+- Supabase Authentication
+---
+### API Flow
+
+```text
+User
+   │
+   ▼
+Click Logout
+   │
+   ▼
+Frontend
+   │
+   ▼
+POST /auth/logout
+   │
+   ▼
+Backend
+   │
+   ▼
+Validate JWT Token
+   │
+   ▼
+Clear Authentication
+   │
+   ▼
+Return Success
+   │
+   ▼
+Redirect to Login Page
+```
+---
+### Status
+🟢 Frozen (Version 1.0)
+
 
 **Status:** 🟡 In Progress
