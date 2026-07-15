@@ -83,7 +83,7 @@ Tables:
 |---------|------|----------|--------|-------------|
 | analysis_id | UUID | Yes | Yes | Primary Key |
 | user_id | UUID | Yes | No | References Users table |
-| analysis_type | VARCHAR(30) | Yes | No | SMS, WhatsApp, Audio, QR, Image |
+| analysis_type | ENUM | Yes | No | SMS, WhatsApp, Audio, QR, Image |
 | input_text | TEXT | No | No | Original text or transcript |
 | file_id | UUID | No | No | References Files table |
 | analysis_status | VARCHAR(20) | Yes | No | Pending, Processing, Completed, Failed |
@@ -267,4 +267,54 @@ The database is reviewed against standard normalization principles to minimize r
 - Validate overall database consistency
 
 **Status:** 
+
+## Table Review: Users
+
+### Normalization Review
+
+| Check | Status | Remarks |
+|--------|--------|---------|
+| Duplicate Data | ✅ Pass | No duplicate columns found. |
+| Single Responsibility | ✅ Pass | Stores only user-related information. |
+| Primary Key Dependency | ✅ Pass | All attributes depend on `user_id`. |
+| Unnecessary Columns | ✅ Pass | All columns are useful for V1 or future scalability. |
+| Missing Columns | ✅ Pass | No essential columns are missing. |
+
+### Normal Forms
+
+- ✅ First Normal Form (1NF)
+- ✅ Second Normal Form (2NF)
+- ✅ Third Normal Form (3NF)
+**Final Decision:** 🟢 Frozen (No Changes Required)
+
+## Table Review: Analysis_History
+
+### Normalization Review
+
+| Check | Status | Remarks |
+|--------|--------|---------|
+| Duplicate Data | ✅ Pass | No duplicate columns found. |
+| Single Responsibility | ✅ Pass | Stores only analysis request information. |
+| Primary Key Dependency | ✅ Pass | All attributes depend on `analysis_id`. |
+| Unnecessary Columns | ✅ Pass | All columns are required for analysis tracking. |
+| Missing Columns | ✅ Pass | No essential columns are missing for V1. |
+
+### Recommendation
+
+- Change `analysis_type` from `VARCHAR(30)` to `ENUM` with the following values:
+  - SMS
+  - WHATSAPP
+  - AUDIO
+  - IMAGE
+  - QR
+  - DOCUMENT
+
+### Normal Forms
+
+- ✅ First Normal Form (1NF)
+- ✅ Second Normal Form (2NF)
+- ✅ Third Normal Form (3NF)
+
+**Final Decision:** 🟢 Frozen (No Structural Changes Required)
+
 🟡 In Progress
