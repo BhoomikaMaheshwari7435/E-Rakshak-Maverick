@@ -97,7 +97,7 @@ Tables:
 | file_id | UUID | Yes | Yes | Primary Key |
 | user_id | UUID | Yes | No | References Users table |
 | file_name | VARCHAR(255) | Yes | No | Original File Name |
-| file_type | VARCHAR(30) | Yes | No | AUDIO, IMAGE, PDF |
+| file_type | ENUM | Yes | No | AUDIO, IMAGE, PDF |
 | file_size | BIGINT | Yes | No | File Size in Bytes |
 | file_url | TEXT | Yes | Yes | Cloud Storage URL |
 | upload_status | VARCHAR(20) | Yes | No | UPLOADING, UPLOADED, FAILED |
@@ -117,7 +117,7 @@ Tables:
 | explanation | TEXT | 🟢 Core | No | Explains why the content is considered risky or safe |
 | safe_next_steps | TEXT | 🟢 Core | No | Recommended actions for the user |
 | detected_indicators | JSON | 🟢 Core | No | AI detected indicators like suspicious URL, OTP request, urgency, fake sender, etc. |
-| preferred_output_language | ENUM | 🟢 Core | No | Gujarati, Hindi, English |
+| response_language | ENUM | 🟢 Core | No | Gujarati, Hindi, English |
 | created_at | TIMESTAMP | 🟢 Core | No | AI analysis completion time |
 
 ### Table 5: Reports
@@ -308,6 +308,113 @@ The database is reviewed against standard normalization principles to minimize r
   - IMAGE
   - QR
   - DOCUMENT
+
+### Normal Forms
+
+- ✅ First Normal Form (1NF)
+- ✅ Second Normal Form (2NF)
+- ✅ Third Normal Form (3NF)
+
+**Final Decision:** 🟢 Frozen (No Structural Changes Required)
+
+## Table Review: Files
+
+### Normalization Review
+
+| Check | Status | Remarks |
+|--------|--------|---------|
+| Duplicate Data | ✅ Pass | No duplicate columns found. |
+| Single Responsibility | ✅ Pass | Stores only uploaded file metadata. |
+| Primary Key Dependency | ✅ Pass | All attributes depend on `file_id`. |
+| Unnecessary Columns | ✅ Pass | All columns are required for V1. |
+| Missing Columns | ✅ Pass | No essential columns are missing for V1. |
+
+### Recommendations
+
+- Change `file_type` from `VARCHAR(30)` to `ENUM`
+  - AUDIO
+  - IMAGE
+  - PDF
+
+- Change `upload_status` from `VARCHAR(20)` to `ENUM`
+  - UPLOADING
+  - UPLOADED
+  - FAILED
+
+### Normal Forms
+
+- ✅ First Normal Form (1NF)
+- ✅ Second Normal Form (2NF)
+- ✅ Third Normal Form (3NF)
+
+**Final Decision:** 🟢 Frozen (No Structural Changes Required)
+
+## Table Review: AI_Results
+
+### Normalization Review
+
+| Check | Status | Remarks |
+|--------|--------|---------|
+| Duplicate Data | ✅ Pass | No duplicate columns found. |
+| Single Responsibility | ✅ Pass | Stores only AI-generated analysis results. |
+| Primary Key Dependency | ✅ Pass | All attributes depend on `ai_result_id`. |
+| Unnecessary Columns | ✅ Pass | Every column is required by the AI workflow. |
+| Missing Columns | ✅ Pass | No essential columns are missing for V1. |
+
+### Recommendation
+
+Rename:
+
+- `preferred_output_language`
+
+to
+
+- `response_language`
+
+This keeps the database consistent with the API specifications.
+
+### Normal Forms
+
+- ✅ First Normal Form (1NF)
+- ✅ Second Normal Form (2NF)
+- ✅ Third Normal Form (3NF)
+
+**Final Decision:** 🟢 Frozen (No Structural Changes Required)
+
+## Table Review: Reports
+
+### Normalization Review
+
+| Check | Status | Remarks |
+|--------|--------|---------|
+| Duplicate Data | ✅ Pass | No duplicate columns found. |
+| Single Responsibility | ✅ Pass | Stores only generated report information. |
+| Primary Key Dependency | ✅ Pass | All attributes depend on `report_id`. |
+| Unnecessary Columns | ✅ Pass | Every column serves a specific purpose. |
+| Missing Columns | ✅ Pass | No essential columns are missing for V1. |
+
+### Normal Forms
+
+- ✅ First Normal Form (1NF)
+- ✅ Second Normal Form (2NF)
+- ✅ Third Normal Form (3NF)
+**Final Decision:** 🟢 Frozen (No Changes Required)
+
+## Table Review: Settings
+
+### Normalization Review
+
+| Check | Status | Remarks |
+|--------|--------|---------|
+| Duplicate Data | ✅ Pass | No duplicate columns found. |
+| Single Responsibility | ✅ Pass | Stores only user preferences and application settings. |
+| Primary Key Dependency | ✅ Pass | All attributes depend on `setting_id`. |
+| Unnecessary Columns | ✅ Pass | Every column is required for V1. |
+| Missing Columns | ✅ Pass | No essential columns are missing for V1. |
+
+### Recommendation
+
+- Keep the column name as `language` for consistency and simplicity.
 
 ### Normal Forms
 
