@@ -1186,4 +1186,142 @@ Display Settings
 
 🟢 Frozen (Version 1.0)
 
+## API 9 - Update User Settings
+
+### Endpoint
+
+**PATCH** `/settings`
+
+---
+
+### Purpose
+
+Updates the authenticated user's application preferences, including language, theme, notification preferences, and voice explanation settings.
+
+---
+
+### Authentication Required
+
+✅ Yes
+
+---
+
+### Request Header
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+### Request Body
+
+```json
+{
+  "preferred_language": "Gujarati",
+  "theme": "Light",
+  "browser_notifications": true,
+  "email_notifications": false,
+  "voice_explanation": true
+}
+```
+
+> **Note:**
+> The user may update one or more settings in a single request.
+
+---
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "message": "Settings updated successfully.",
+  "settings": {
+    "preferred_language": "Gujarati",
+    "theme": "Light",
+    "browser_notifications": true,
+    "email_notifications": false,
+    "voice_explanation": true
+  }
+}
+```
+
+---
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "success": false,
+  "message": "Invalid settings data."
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized access."
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Unable to update user settings."
+}
+```
+
+---
+
+### Database Tables Used
+
+- Settings
+
+---
+
+### External Services
+
+- None
+
+---
+
+### API Flow
+
+```text
+User
+   │
+   ▼
+Modify Settings
+   │
+   ▼
+PATCH /settings
+   │
+   ▼
+Validate User
+   │
+   ▼
+Validate Input
+   │
+   ▼
+Update Settings Table
+   │
+   ▼
+Return Updated Settings
+   │
+   ▼
+Display Success Message
+```
+
+---
+
+### Status
+🟢 Frozen (Version 1.0)
+
 🟡 In Progress
