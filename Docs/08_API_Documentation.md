@@ -79,4 +79,158 @@ The API documentation covers:
 | GET | `/health` | Check API health status |
 
 
+# Architecture And Inside Work Of Every API.
+#-----------------
+
+## API 1 - Google Authentication
+
+### Endpoint
+
+**POST** `/auth/google`
+
+---
+
+### Purpose
+
+Authenticates a user using Google OAuth. If the user logs in for the first time, a new account is created. Otherwise, the existing account is used and the user is logged into the platform.
+
+---
+
+### Authentication Required
+
+❌ No
+
+---
+
+### Request Body
+
+```json
+{
+  "google_token": "string"
+}
+```
+
+---
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "user": {
+    "user_id": "uuid",
+    "display_name": "Bhoomi Maheshwari",
+    "email": "user@example.com",
+    "profile_picture": "https://..."
+  },
+  "access_token": "jwt_token"
+}
+```
+
+---
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "success": false,
+  "message": "Google token is required."
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Invalid Google token."
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Authentication failed."
+}
+```
+
+---
+
+### Database Tables Used
+
+- Users
+- Settings *(Create default settings for new users only.)*
+
+---
+
+### External Services
+
+- Google OAuth
+- Supabase Authentication
+
+---
+
+### API Flow
+
+```text
+User
+   │
+   ▼
+Google Login
+   │
+   ▼
+Frontend
+   │
+   ▼
+POST /auth/google
+   │
+   ▼
+Backend
+   │
+   ▼
+Verify Google Token
+   │
+   ▼
+Check Users Table
+   │
+ ┌─Yes──────────────┐
+ │ Existing User    │
+ └──────────────────┘
+        │
+        ▼
+Return JWT Token
+        │
+        ▼
+Frontend Dashboard
+
+OR
+
+ ┌─No───────────────┐
+ │ New User         │
+ └──────────────────┘
+        │
+        ▼
+Create User
+        │
+        ▼
+Create Default Settings
+        │
+        ▼
+Return JWT Token
+        │
+        ▼
+Frontend Dashboard
+```
+
+---
+
+### Status
+
+🟢 Frozen (Version 1.0)
+
 **Status:** 🟡 In Progress
