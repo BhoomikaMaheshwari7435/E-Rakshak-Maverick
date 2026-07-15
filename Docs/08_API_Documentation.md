@@ -1062,4 +1062,128 @@ Download Starts
 ### Status
 🟢 Frozen (Version 1.0)
 
+## API 8 - Get User Settings
+
+### Endpoint
+
+**GET** `/settings`
+
+---
+
+### Purpose
+
+Retrieves the current settings and preferences of the authenticated user, including language, theme, notification preferences, and voice explanation settings.
+
+---
+
+### Authentication Required
+
+✅ Yes
+
+---
+
+### Request Header
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+### Request Parameters
+
+None
+
+---
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "settings": {
+    "preferred_language": "Gujarati",
+    "theme": "Light",
+    "browser_notifications": true,
+    "email_notifications": false,
+    "voice_explanation": true
+  }
+}
+```
+
+---
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized access."
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "success": false,
+  "message": "Settings not found."
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Unable to retrieve user settings."
+}
+```
+
+---
+
+### Database Tables Used
+
+- Settings
+
+---
+
+### External Services
+
+- None
+
+---
+
+### API Flow
+
+```text
+User
+   │
+   ▼
+Open Settings Page
+   │
+   ▼
+GET /settings
+   │
+   ▼
+Validate User
+   │
+   ▼
+Fetch Settings
+   │
+   ▼
+Return Settings
+   │
+   ▼
+Display Settings
+```
+
+---
+
+### Status
+
+🟢 Frozen (Version 1.0)
+
 🟡 In Progress
