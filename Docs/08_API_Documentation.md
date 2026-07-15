@@ -950,13 +950,16 @@ Display Report
 ### Endpoint
 
 **GET** `/analysis/{analysis_id}/report/download`
+
 ---
 ### Purpose
 Downloads the scam analysis report as a PDF document for offline viewing, sharing, or future reference.
+
 ---
 
 ### Authentication Required
 ✅ Yes
+
 ---
 
 ### Request Header
@@ -965,6 +968,7 @@ Authorization: Bearer <access_token>
 ```
 
 ---
+
 ### Path Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
