@@ -943,4 +943,119 @@ Display Report
 ### Status
 
 🟢 Frozen (Version 1.0)
-**Status:** 🟡 In Progress
+**Status:** 
+
+## API 7 - Download Analysis Report
+
+### Endpoint
+
+**GET** `/analysis/{analysis_id}/report/download`
+---
+### Purpose
+Downloads the scam analysis report as a PDF document for offline viewing, sharing, or future reference.
+---
+
+### Authentication Required
+✅ Yes
+---
+
+### Request Header
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+### Path Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| analysis_id | UUID | Yes | Unique ID of the analysis record |
+
+---
+
+### Success Response (200 OK)
+
+```http
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="Scam_Analysis_Report.pdf"
+```
+
+> The API returns the generated PDF report for download.
+
+---
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized access."
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "success": false,
+  "message": "Report not found."
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Unable to generate the report."
+}
+```
+
+---
+
+### Database Tables Used
+
+- Reports
+- Analysis_History
+- AI_Results
+
+---
+
+### External Services
+
+- PDF Generation Service
+
+---
+
+### API Flow
+
+```text
+User
+   │
+   ▼
+Click Download Report
+   │
+   ▼
+GET /analysis/{analysis_id}/report/download
+   │
+   ▼
+Validate User
+   │
+   ▼
+Fetch Analysis Data
+   │
+   ▼
+Generate PDF Report
+   │
+   ▼
+Return PDF File
+   │
+   ▼
+Download Starts
+```
+---
+### Status
+🟢 Frozen (Version 1.0)
+
+🟡 In Progress
