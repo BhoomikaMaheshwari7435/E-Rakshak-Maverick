@@ -650,148 +650,6 @@ Display History
 
 ### Purpose
 
-Retrieves the complete details of a specific scam analysis, including AI results, explanation, detected indicators, and recommended safe next steps.
-
----
-
-### Authentication Required
-
-✅ Yes
-
----
-
-### Request Header
-
-```http
-Authorization: Bearer <access_token>
-```
-
----
-
-### Path Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| analysis_id | UUID | Yes | Unique ID of the analysis record |
-
----
-
-### Success Response (200 OK)
-
-```json
-{
-  "success": true,
-  "analysis": {
-    "analysis_id": "uuid",
-    "analysis_type": "SMS",
-    "created_at": "2026-07-15T10:30:00Z",
-    "risk_score": 92,
-    "danger_level": "DANGER",
-    "scam_category": "Phishing",
-    "detailed_analysis": "The message attempts to impersonate a trusted bank and creates urgency.",
-    "explanation": "The message requests your OTP and contains a suspicious URL.",
-    "safe_next_steps": [
-      "Do not click the link.",
-      "Do not share your OTP.",
-      "Contact your bank using the official customer care number."
-    ],
-    "detected_indicators": [
-      "Suspicious URL",
-      "Requests OTP",
-      "Creates Urgency",
-      "Fake Bank Name"
-    ],
-    "response_language": "Gujarati"
-  }
-}
-```
-
----
-
-### Error Responses
-
-#### 401 Unauthorized
-
-```json
-{
-  "success": false,
-  "message": "Unauthorized access."
-}
-```
-
-#### 404 Not Found
-
-```json
-{
-  "success": false,
-  "message": "Analysis not found."
-}
-```
-
-#### 500 Internal Server Error
-
-```json
-{
-  "success": false,
-  "message": "Unable to retrieve analysis details."
-}
-```
-
----
-
-### Database Tables Used
-
-- Analysis_History
-- AI_Results
----
-### External Services
-
-- None
-
----
-### API Flow
-
-```text
-User
-   │
-   ▼
-Select Analysis from History
-   │
-   ▼
-GET /analysis/{analysis_id}
-   │
-   ▼
-Validate User
-   │
-   ▼
-Fetch Analysis_History
-   │
-   ▼
-Fetch AI_Results
-   │
-   ▼
-Merge Complete Analysis
-   │
-   ▼
-Return Details
-   │
-   ▼
-Display Full Analysis
-```
----
-### Status
-🟢 Frozen (Version 1.0)
-
-## API 5 - Get Analysis Details
-
-### Endpoint
-
-**GET** `/analysis/{analysis_id}`
-
----
-
-### Purpose
-
 Retrieves the complete details of a specific scam analysis, including the original input, uploaded file (if available), AI results, explanation, detected indicators, and recommended safe next steps.
 
 ---
@@ -892,7 +750,9 @@ Authorization: Bearer <access_token>
 - Analysis_History
 - AI_Results
 - Files *(Only if the analysis contains an uploaded file.)*
+
 ---
+
 ### External Services
 
 - None
@@ -931,8 +791,11 @@ Return Analysis Details
    ▼
 Display Complete Analysis
 ```
+
 ---
+
 ### Status
+
 🟢 Frozen (Version 1.0)
 
 **Status:** 🟡 In Progress
