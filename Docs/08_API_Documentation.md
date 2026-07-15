@@ -105,7 +105,7 @@ Authenticates a user using Google OAuth. If the user logs in for the first time,
 
 ```json
 {
-  "google_token": "string"
+  "id_token": "string"
 }
 ```
 
