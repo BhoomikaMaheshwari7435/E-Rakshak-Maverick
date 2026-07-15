@@ -213,3 +213,36 @@ Each user has one settings profile containing language preference, theme, notifi
 **Reason:**
 A single uploaded file can be analyzed multiple times without requiring the user to upload it again.
 
+
+## Step 4 - Entity Relationship Diagram (ERD)
+
+```text
+                           USERS
+                    /        |        \
+                   /         |         \
+                  /          |          \
+                 ▼           ▼           ▼
+
+      ANALYSIS_HISTORY      FILES      SETTINGS
+             │                ▲
+             │                │
+             ├────────────────┘
+             │
+             ▼
+        AI_RESULTS
+             │
+             ▼
+          REPORTS
+```
+
+### Relationship Summary
+
+| Parent Table | Child Table | Relationship |
+|--------------|-------------|--------------|
+| Users | Analysis_History | One-to-Many (1:N) |
+| Users | Files | One-to-Many (1:N) |
+| Users | Settings | One-to-One (1:1) |
+| Files | Analysis_History | One-to-Many (1:N) *(file_id is nullable)* |
+| Analysis_History | AI_Results | One-to-One (1:1) |
+| Analysis_History | Reports | One-to-Many (1:N) |
+
