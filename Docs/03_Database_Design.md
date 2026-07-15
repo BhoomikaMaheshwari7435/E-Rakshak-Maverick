@@ -246,3 +246,25 @@ A single uploaded file can be analyzed multiple times without requiring the user
 | Analysis_History | AI_Results | One-to-One (1:1) |
 | Analysis_History | Reports | One-to-Many (1:N) |
 
+
+# Step 5 - Database Normalization
+
+## Objective
+
+Database normalization is performed to ensure that the database is efficient, scalable, and free from unnecessary data duplication. This process verifies that each table has a single responsibility, maintains proper relationships, and follows good relational database design practices before implementation.
+
+The database is reviewed against standard normalization principles to minimize redundancy, improve data consistency, and simplify future maintenance.
+
+---
+
+## Normalization Checklist
+
+- Remove duplicate data
+- Ensure single responsibility for each table
+- Verify primary and foreign key relationships
+- Eliminate unnecessary columns
+- Confirm all attributes depend on the primary key
+- Validate overall database consistency
+
+**Status:** 
+🟡 In Progress
