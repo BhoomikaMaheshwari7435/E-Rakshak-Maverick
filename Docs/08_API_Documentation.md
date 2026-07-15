@@ -25,18 +25,17 @@ The API documentation covers:
 
 ## API Categories
 
-The APIs are grouped based on their functionality to maintain a clean and scalable backend architecture.
-
 1. Authentication APIs
 2. Analysis APIs
-3. File APIs
-4. Report APIs
-5. Settings APIs
-6. System APIs
+3. Report APIs
+4. Settings APIs
+5. System APIs
 
-## API List (Version 1.0)
+---
 
-### Authentication APIs
+# API List (Version 1.0)
+
+## Authentication APIs
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
@@ -45,7 +44,7 @@ The APIs are grouped based on their functionality to maintain a clean and scalab
 
 ---
 
-### Analysis APIs
+## Analysis APIs
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
@@ -55,24 +54,16 @@ The APIs are grouped based on their functionality to maintain a clean and scalab
 
 ---
 
-### File APIs
+## Report APIs
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| POST | `/upload` | Upload an image, audio, or document |
+| GET | `/analysis/{analysis_id}/report` | Retrieve the generated report |
+| GET | `/analysis/{analysis_id}/report/download` | Download the report as PDF |
 
 ---
 
-### Report APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | `/reports/{report_id}` | Retrieve a generated report |
-| GET | `/reports/{report_id}/download` | Download report as PDF |
-
----
-
-### Settings APIs
+## Settings APIs
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
@@ -81,13 +72,11 @@ The APIs are grouped based on their functionality to maintain a clean and scalab
 
 ---
 
-### System APIs
+## System APIs
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
 | GET | `/health` | Check API health status |
-
-
 
 
 **Status:** 🟡 In Progress
