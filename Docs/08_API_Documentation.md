@@ -516,4 +516,125 @@ Display Result & Voice Explanation
 ### Status
 🟢 Frozen (Version 1.0)
 
+## API 4 - Get Analysis History
+
+### Endpoint
+
+**GET** `/analysis/history?page=1&limit=10`
+
+---
+
+### Purpose
+
+Retrieves the complete analysis history of the authenticated user. The API returns a list of all previous scam analyses along with summary information, allowing users to review their past analysis records.
+
+---
+
+### Authentication Required
+
+✅ Yes
+
+---
+
+### Request Header
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+### Request Parameters
+
+None
+
+---
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "history": [
+    {
+      "analysis_id": "uuid",
+      "analysis_type": "SMS",
+      "risk_score": 92,
+      "danger_level": "DANGER",
+      "scam_category": "Phishing",
+      "created_at": "2026-07-15T10:30:00Z"
+    },
+    {
+      "analysis_id": "uuid",
+      "analysis_type": "QR",
+      "risk_score": 18,
+      "danger_level": "SAFE",
+      "scam_category": "Safe QR",
+      "created_at": "2026-07-14T08:10:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized access."
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Unable to retrieve analysis history."
+}
+```
+---
+### Database Tables Used
+- Analysis_History
+- AI_Results
+---
+### External Services
+- None
+---
+### API Flow
+```text
+User
+   │
+   ▼
+Open History Page
+   │
+   ▼
+GET /analysis/history
+   │
+   ▼
+Validate User
+   │
+   ▼
+Fetch Analysis_History
+   │
+   ▼
+Fetch AI_Results
+   │
+   ▼
+Merge Summary Data
+   │
+   ▼
+Return History List
+   │
+   ▼
+Display History
+```
+---
+### Status
+🟢 Frozen (Version 1.0)
+
 **Status:** 🟡 In Progress
