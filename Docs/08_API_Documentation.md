@@ -80,7 +80,6 @@ The API documentation covers:
 
 
 # Architecture And Inside Work Of Every API.
-#-----------------
 
 ## API 1 - Google Authentication
 
