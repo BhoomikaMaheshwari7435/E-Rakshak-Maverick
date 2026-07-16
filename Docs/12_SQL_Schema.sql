@@ -226,3 +226,37 @@ CREATE TABLE ai_results (
         ON DELETE CASCADE
 
 );
+
+
+
+
+-- ==========================================
+-- TABLE: Reports
+-- ==========================================
+
+CREATE TABLE reports (
+
+    report_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+    analysis_id UUID NOT NULL,
+
+    report_title VARCHAR(150) NOT NULL,
+
+    report_format report_format_enum NOT NULL,
+
+    report_url TEXT,
+
+    report_status report_status_enum NOT NULL DEFAULT 'GENERATED',
+
+    generated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_report_analysis
+        FOREIGN KEY (analysis_id)
+        REFERENCES analysis_history(analysis_id)
+        ON DELETE CASCADE
+
+);
+
+
+
+
