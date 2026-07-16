@@ -260,3 +260,33 @@ CREATE TABLE reports (
 
 
 
+-- ==========================================
+-- TABLE: Settings
+-- ==========================================
+
+CREATE TABLE settings (
+
+    setting_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+    user_id UUID NOT NULL UNIQUE,
+
+    language language_enum NOT NULL DEFAULT 'English',
+
+    theme theme_enum NOT NULL DEFAULT 'System',
+
+    browser_notifications BOOLEAN NOT NULL DEFAULT TRUE,
+
+    email_notifications BOOLEAN NOT NULL DEFAULT FALSE,
+
+    voice_explanation BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_settings_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+
+);
