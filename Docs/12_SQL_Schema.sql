@@ -188,3 +188,41 @@ CREATE TABLE analysis_history (
         ON DELETE SET NULL
 
 );
+
+
+
+
+-- ==========================================
+-- TABLE: AI_Results
+-- ==========================================
+
+CREATE TABLE ai_results (
+
+    ai_result_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+    analysis_id UUID NOT NULL UNIQUE,
+
+    risk_score INTEGER NOT NULL CHECK (risk_score >= 0 AND risk_score <= 100),
+
+    danger_level danger_level_enum NOT NULL,
+
+    scam_category scam_category_enum NOT NULL,
+
+    detailed_analysis TEXT NOT NULL,
+
+    explanation TEXT NOT NULL,
+
+    safe_next_steps TEXT NOT NULL,
+
+    detected_indicators JSONB NOT NULL,
+
+    response_language language_enum NOT NULL,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_ai_analysis
+        FOREIGN KEY (analysis_id)
+        REFERENCES analysis_history(analysis_id)
+        ON DELETE CASCADE
+
+);
