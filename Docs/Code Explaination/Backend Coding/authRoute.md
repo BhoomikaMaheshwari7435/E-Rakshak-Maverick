@@ -81,17 +81,31 @@ Suppose a user clicks: Continue with Google
 
 ## The flow becomes: 
 Frontend
+
 ↓
+
 POST /auth/google
+
 ↓
+
 authRoutes.js
+
 ↓
+
 authController.js
+
 ↓
+
 googleAuthService.js
+
 ↓
+
 Supabase
+
 ↓
+
 Response
+
 ↓
+
 Frontend
