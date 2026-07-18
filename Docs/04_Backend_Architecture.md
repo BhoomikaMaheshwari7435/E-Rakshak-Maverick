@@ -70,3 +70,102 @@ Response:
 ```
 
 The backend environment is now ready for Supabase integration and API development.
+
+
+## Authentication Controller
+
+### File
+
+backend/src/controllers/authController.js
+
+### Responsibilities
+
+- Receives authentication requests from authentication routes.
+- Extracts the Google ID Token from the request body.
+- Validates required request data.
+- Calls the Google Authentication Service.
+- Returns HTTP responses to the client.
+- Handles unexpected server errors.
+
+### HTTP Status Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | Authentication successful |
+| 400 | Missing or invalid Google ID Token |
+| 500 | Internal server error |
+
+### Architecture Flow
+
+Frontend
+↓
+Authentication Route
+↓
+Authentication Controller
+↓
+Google Authentication Service
+↓
+Supabase Database
+
+
+
+## Google Authentication Service
+
+### File
+
+backend/src/services/auth/googleAuthService.js
+
+### Responsibilities
+
+- Verify Google ID Tokens using Google's official OAuth2 library.
+- Extract authenticated user information.
+- Return verified user details to the Authentication Controller.
+- Reject invalid or forged tokens.
+
+### Security
+Every authentication request is verified directly with Google's servers to prevent fake or modified login requests.
+
+
+## Route Registration
+
+### File
+
+backend/src/app.js
+
+### Responsibilities
+
+- Registers all application routes.
+- Connects middleware with route modules.
+- Provides a centralized entry point for API routing.
+
+### Registered Routes
+
+| Base Route | Module |
+|------------|--------|
+| `/` | Health Routes |
+| `/auth` | Authentication Routes |
+
+### Benefits
+
+- Modular project structure.
+- Easy scalability.
+- Better code organization.
+- Separation of concerns.
+
+
+
+## User Authentication & Database Sync
+
+### Flow
+
+1. Verify Google ID Token.
+2. Extract user details.
+3. Search the `users` table using the Google ID.
+4. Create a new user if one does not already exist.
+5. Return the database user record.
+
+### Benefits
+
+- Prevents duplicate users.
+- Keeps Google identity linked to a single database record.
+- Supports future features such as history, reports, settings, and preferences.
