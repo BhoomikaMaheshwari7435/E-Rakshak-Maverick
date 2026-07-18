@@ -96,3 +96,11 @@ we send
 500
 **Meaning :** Internal Server Error
 
+
+| Code | Meaning               | Who made the mistake?    |
+| ---- | --------------------- | ------------------------ |
+| 200  | Success               | Nobody                   |
+| 400  | Bad Request           | Client/User              |
+| 401  | Unauthorized          | User isn't authenticated |
+| 404  | Not Found             | API doesn't exist        |
+| 500  | Internal Server Error | Backend                  |
