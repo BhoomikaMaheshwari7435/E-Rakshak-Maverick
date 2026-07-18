@@ -109,3 +109,25 @@ Response
 ↓
 
 Frontend
+
+# Think Like this
+Frontend
+   │
+   ▼
+authRoutes.js      ← "Which function should handle this request?"
+   │
+   ▼
+authController.js  ← "Handle the request and response"
+   │
+   ▼
+googleAuthService.js ← "Verify Google token + Database work"
+   │
+   ▼
+Supabase
+
+Then 
+## 💡 Simple way to remember:
+Routes = Where should the request go?
+Controller = What should happen?
+Service = How do we perform the business logic?
+Database = Store / Retrieve data
