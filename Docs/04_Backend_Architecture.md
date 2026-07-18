@@ -123,5 +123,31 @@ backend/src/services/auth/googleAuthService.js
 - Reject invalid or forged tokens.
 
 ### Security
-
 Every authentication request is verified directly with Google's servers to prevent fake or modified login requests.
+
+
+## Route Registration
+
+### File
+
+backend/src/app.js
+
+### Responsibilities
+
+- Registers all application routes.
+- Connects middleware with route modules.
+- Provides a centralized entry point for API routing.
+
+### Registered Routes
+
+| Base Route | Module |
+|------------|--------|
+| `/` | Health Routes |
+| `/auth` | Authentication Routes |
+
+### Benefits
+
+- Modular project structure.
+- Easy scalability.
+- Better code organization.
+- Separation of concerns.
