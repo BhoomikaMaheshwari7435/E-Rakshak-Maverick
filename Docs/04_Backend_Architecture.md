@@ -106,3 +106,22 @@ Authentication Controller
 Google Authentication Service
 ↓
 Supabase Database
+
+
+
+## Google Authentication Service
+
+### File
+
+backend/src/services/auth/googleAuthService.js
+
+### Responsibilities
+
+- Verify Google ID Tokens using Google's official OAuth2 library.
+- Extract authenticated user information.
+- Return verified user details to the Authentication Controller.
+- Reject invalid or forged tokens.
+
+### Security
+
+Every authentication request is verified directly with Google's servers to prevent fake or modified login requests.
