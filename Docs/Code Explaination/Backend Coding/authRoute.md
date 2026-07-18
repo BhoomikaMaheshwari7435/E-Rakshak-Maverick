@@ -112,18 +112,24 @@ Frontend
 
 # Think Like this
 Frontend
+
    │
    ▼
+
 authRoutes.js      ← "Which function should handle this request?"
    │
    ▼
+
 authController.js  ← "Handle the request and response"
    │
    ▼
+
 googleAuthService.js ← "Verify Google token + Database work"
    │
    ▼
+
 Supabase
+
 
 Then 
 ## 💡 Simple way to remember:
