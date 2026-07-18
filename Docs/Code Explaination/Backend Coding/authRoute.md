@@ -31,11 +31,11 @@ Router()
 Think of it like:
 
 Express Application
-↓
-Authentication Router
-↓
-Health Router
-↓
+ ↓
+Authentication Router 
+ ↓
+Health Router 
+ ↓
 Analysis Router
 ↓
 Settings Router
