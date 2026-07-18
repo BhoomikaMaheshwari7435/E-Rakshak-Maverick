@@ -46,3 +46,6 @@ Controller
 Service
 ↓
 Database / External APIs
+
+**What is the difference between app.use() and router.post()?**
+app.use() registers a group of routes or middleware with the Express application. router.post() defines a specific POST endpoint inside a route module. Together they allow us to organize APIs in a modular way.
