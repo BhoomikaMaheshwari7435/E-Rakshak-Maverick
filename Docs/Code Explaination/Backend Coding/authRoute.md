@@ -1,4 +1,4 @@
-##Header
+## Header
 // ======================================================
 // File: authRoutes.js
 // Purpose: Defines authentication-related API routes
@@ -11,7 +11,7 @@ What it does
 Which project it belongs to
 
 
-##2. Import Express
-|const express = require("express");|
+## 2. Import Express
+ |const express = require("express");|
 Express provides all routing features.
 it's like we Think of Express as our backend framework.
