@@ -1,8 +1,12 @@
 ## Header
 // ======================================================
+
 // File: authRoutes.js
+
 // Purpose: Defines authentication-related API routes
+
 // Project: E-Rakshak
+
 // ======================================================
 
 If another developer opens this file after 6 months, they immediately know:
