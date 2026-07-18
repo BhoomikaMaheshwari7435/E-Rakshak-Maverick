@@ -151,3 +151,21 @@ backend/src/app.js
 - Easy scalability.
 - Better code organization.
 - Separation of concerns.
+
+
+
+## User Authentication & Database Sync
+
+### Flow
+
+1. Verify Google ID Token.
+2. Extract user details.
+3. Search the `users` table using the Google ID.
+4. Create a new user if one does not already exist.
+5. Return the database user record.
+
+### Benefits
+
+- Prevents duplicate users.
+- Keeps Google identity linked to a single database record.
+- Supports future features such as history, reports, settings, and preferences.
