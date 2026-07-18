@@ -174,3 +174,34 @@ Controller
 Frontend
 
 
+
+
+# New Updated Code....
+
+# Database Integration
+
+## Purpose
+
+After Google verifies the user's identity, the backend checks whether the user already exists in the `users` table.
+
+## Steps
+
+1. Verify the Google ID Token.
+2. Extract the user payload.
+3. Search the `users` table using the Google ID.
+4. If the user exists, return the existing record.
+5. If the user does not exist, create a new user.
+6. Return the authenticated user data.
+
+## Why check before inserting?
+
+This prevents duplicate user accounts and ensures every Google account maps to a single database record.
+
+## Supabase Methods Used
+
+- `.from("users")` → Select the users table.
+- `.select("*")` → Retrieve all columns.
+- `.eq()` → Filter records.
+- `.single()` → Return one object instead of an array.
+- `.insert()` → Add a new user.
+
