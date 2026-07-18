@@ -1413,3 +1413,35 @@ Return Health Status
 ### Status
 🟢 Frozen (Version 1.0)
 🟡 In Progress
+
+# API 10: GET /health
+
+## Purpose
+
+Checks whether the backend server is running and responding correctly.
+
+## Endpoint
+
+GET /health
+
+## Authentication
+
+Not Required
+
+## Request Body
+
+None
+
+## Success Response (200)
+
+```json
+{
+  "success": true,
+  "message": "Backend is running successfully.",
+  "timestamp": "2026-07-18T03:12:45.479Z"
+}
+```
+
+## Status
+
+✅ Implemented
