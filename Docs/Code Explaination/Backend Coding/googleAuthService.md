@@ -205,3 +205,202 @@ This prevents duplicate user accounts and ensures every Google account maps to a
 - `.single()` → Return one object instead of an array.
 - `.insert()` → Add a new user.
 
+## Step 1: Import Supabase
+### code : const supabase = require("../../config/supabaseClient");
+Earlier our service only communicated with Google. Now it also needs to communicate with our database.
+So this line imports the database connection we created earlier.
+Architecture becomes:
+GoogleAuthService
+
+      ↓
+
+Google Server
+
+      ↓
+
+Supabase Database
+
+## Step 2: Verify Google Token
+### const ticket = await client.verifyIdToken({
+    idToken: idToken
+});
+
+Nothing changed here. We first ask Google:  **"Is this ID Token genuine?"
+**   If Google says YES, we continue.
+If Google says NO, authentication stops.
+
+## Step 3: Get User Information
+### code : const payload = ticket.getPayload();
+
+**Example:**  
+Google User
+
+↓
+
+Name
+Email
+Google ID
+Profile Photo
+
+## Step 4: Search the Database
+### code: let { data: user, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("google_id", payload.sub)
+    .single();
+
+This is a very common Supabase query.
+Let's break it down.
+**.from("users") : .from("users")**
+Means: Work with the users table.
+Just like SQL: SELECT * FROM users
+
+**.select("*")**
+Means: Get all columns.
+Equivalent SQL: SELECT *
+FROM users;
+
+**.eq("google_id", payload.sub)**
+Means: Find the row where google_id == payload.sub
+Equivalent SQL: WHERE google_id = '123456789'
+
+**.single()**
+This tells Supabase: I expect only one user.
+Without .single(), Supabase returns an array.
+With .single(), it returns one object.
+Example: 
+**Without:** [
+   {
+      ...
+   }
+]
+
+**With:** {
+   ...
+}
+Much easier to work with.
+
+
+**Why let Instead of const?**
+let { data: user, error } = ...    (Excellent interview question.)
+
+Later we do: user = newUser;
+Since the value changes,
+
+we must use:   let
+If we had written:   const
+JavaScript would throw an error.
+
+## Step 5: Does the User Exist?
+### code: if (!user)
+Imagine two situations.
+**Existing User:**
+Database  =>  Bhoomi  =>  Found  (**No need to create another account.**)
+
+**New User :**
+Database  =>  Not Found    (**Now we create one.**)
+
+
+## Step 6: Insert New User
+### code: 
+.insert([
+{
+...
+}
+])
+
+
+Equivalent SQL:   INSERT INTO users(...)
+                      VALUES(...);
+
+We're saving: Google ID
+Name
+Email
+Profile Picture
+Preferred Language
+
+
+## Step 7: .select().single()
+### code : 
+**.select()
+.single()**
+
+
+Because after inserting,  we immediately want the created user back. Otherwise we'd need another query.
+This saves time.
+
+
+
+## Step 8: Error Handling
+### code:
+**if (insertError)
+    throw insertError;**
+
+**If the database says:**  "I couldn't save the user."
+We stop immediately.  Never pretend everything succeeded.
+
+
+## Step 9: Existing User
+If the user already exists, we skip the insert.
+That's why our app doesn't create duplicate accounts.
+
+
+## Step 10: Return User
+### code: 
+**return {
+    success: true,
+    message: "Authentication successful.",
+    user
+};**
+
+Now the frontend receives the real database record, not just Google's information.
+
+That means next time we can easily add:
+Scan History
+Reports
+Preferred Language
+Settings
+User Role
+Everything will be linked to this user.
+
+
+User
+
+↓
+
+Google Login
+
+↓
+
+Google ID Token
+
+↓
+
+Backend
+
+↓
+
+Verify Token with Google
+
+↓
+
+Extract Payload
+
+↓
+
+Search "users" Table
+
+      │
+      ├──────────────┐
+      │              │
+User Found      User Not Found
+      │              │
+      │        Create New User
+      │              │
+      └──────┬───────┘
+             │
+Return User Record
+
+↓
+
+Frontend
