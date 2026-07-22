@@ -55,6 +55,43 @@ Currect Ans. : try-catch protects your application.  It prevents one error from 
 
 
 
+
+# Code : 
+const qrService = require("../services/qr/qrService");
+
+/**
+ * @function scanQRCode
+ * @description Receives a QR scan request from the Route,
+ * sends it to the Service for processing,
+ * and returns the final response to the client.
+ */
+exports.scanQRCode = async (req, res) => {
+    try {
+
+        // Send request data to the Service
+        const result = await qrService.scanQRCode(req.body);
+
+        // Return success response
+        return res.status(200).json({
+            success: true,
+            data: result
+        });
+
+    } catch (error) {
+
+        console.error("QR Scan Error:", error.message);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to scan QR Code."
+        });
+
+    }
+};
+
+
+
+
 # qrController.js
 
 ## Purpose
@@ -88,3 +125,104 @@ HTTP Response
 - `res` sends data back to the client.
 - `async/await` waits for the Service to complete.
 - `try-catch` prevents the server from crashing due to runtime errors.
+
+
+
+
+# New Updated Code Changed From Here.......
+# Code
+
+const qrService = require("../services/qr/qrService");
+
+exports.scanQRCode = async (req, res) => {
+    try {
+
+        // Check if an image was uploaded
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Please upload a QR code image."
+            });
+        }
+
+        // Send uploaded image to service
+        const result = await qrService.scanQRCode(req.file);
+
+        return res.status(200).json({
+            success: true,
+            data: result
+        });
+
+    } catch (error) {
+
+        console.error("QR Scan Error:", error.message);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to scan QR Code."
+        });
+    }
+};
+
+
+
+
+
+
+## Change 1  Earlier we had:
+_req.body_
+**Now We Have:**  _req.file_
+
+### Why?  Earlier our API expected something like:
+_{   "text":"Hello"  }_
+
+### But now users upload: 
+_paymentQR.png_
+**So after Multer processes the request:** _req.file_  contains information about the uploaded image.
+
+
+## What does req.file contain?
+**Something like:**
+{
+   filename: "1753245678.png",
+   originalname: "paymentQR.png",
+   mimetype: "image/png",
+   destination: "uploads/",
+   path: "uploads/1753245678.png"
+}
+
+_This object is exactly what we'll pass to qrService.js._
+
+
+## Change 2 : Before sending anything to the service, we added:
+_if (!req.file)_
+
+**Why? Imagine the frontend accidentally sends no image.**
+**Without this check:**  qrService   =>   tries to read image   =>   Crash ❌
+
+**Instead:** No image   =>   400 Bad Request   =>   "Please upload a QR code image."
+
+_Much safer._
+
+## Our Flow Now:
+User
+
+↓
+
+Upload Image
+
+↓
+
+uploadMiddleware
+
+↓
+
+req.file
+
+↓
+
+qrController
+
+↓
+
+qrService
