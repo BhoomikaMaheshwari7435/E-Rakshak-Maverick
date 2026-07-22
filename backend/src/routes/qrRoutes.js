@@ -5,17 +5,16 @@
 // ======================================================
 
 const express = require("express");
-
 const router = express.Router();
 
 const qrController = require("../controllers/qrController");
+const upload = require("../middleware/uploadMiddleware");
 
-/**
- * @route POST /scan/qr
- * @desc Scan and analyze QR Code
- * @access Private
- */
-
-router.post("/qr", qrController.scanQRCode);
+// Scan QR Code
+router.post(
+    "/scan/qr",
+    upload.single("qrImage"),
+    qrController.scanQRCode
+);
 
 module.exports = router;

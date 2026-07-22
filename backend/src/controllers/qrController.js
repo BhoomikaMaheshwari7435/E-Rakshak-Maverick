@@ -6,19 +6,20 @@
 
 const qrService = require("../services/qr/qrService");
 
-/**
- * @function scanQRCode
- * @description Receives a QR scan request from the Route,
- * sends it to the Service for processing,
- * and returns the final response to the client.
- */
 exports.scanQRCode = async (req, res) => {
     try {
 
-        // Send request data to the Service
-        const result = await qrService.scanQRCode(req.body);
+        // Check if an image was uploaded
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Please upload a QR code image."
+            });
+        }
 
-        // Return success response
+        // Send uploaded image to service
+        const result = await qrService.scanQRCode(req.file);
+
         return res.status(200).json({
             success: true,
             data: result
@@ -32,6 +33,5 @@ exports.scanQRCode = async (req, res) => {
             success: false,
             message: "Failed to scan QR Code."
         });
-
     }
 };
