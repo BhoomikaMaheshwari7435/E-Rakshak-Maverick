@@ -1,3 +1,5 @@
+## For whatsappRouter.js the code is same as smsRouter so if we've understand the SMS Router then whatsapp is also easy ans same!!!
+
 # whatsappController.js
 
 ## Purpose
