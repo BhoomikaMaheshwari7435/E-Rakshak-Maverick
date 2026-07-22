@@ -161,6 +161,24 @@ or  _upi://pay?pa=..._
 
 
 
+## Final Flow
+
+1. Receive uploaded image.
+2. Read the image using Jimp.
+3. Extract pixel data.
+4. Decode QR using jsQR.
+5. Extract text or URL from the QR code.
+6. Send extracted text to riskAnalyzer.
+7. Generate a formatted report using reportService.
+8. Return the report to the controller.
+9. Controller sends the response to the frontend.
+
+## Reusability
+
+Only QR decoding is specific to this service.
+
+Risk analysis and report generation are shared services that can also be used by SMS, WhatsApp, Email, and Call Transcript scanners.
+
 
 # 🚀 THE FINAL PART OF qrService.js
 ## Code:
