@@ -97,3 +97,71 @@ So this line makes the Router available to other files._
 
 **🧠 Overall Flow**
 User  =>  POST /scan/qr  =>  qrRoutes.js  =>  qrController.js  =>  qrService.js  =>  AI Analysis  =>  Response
+
+
+# Change of the code From Here...
+
+# qrRoutes.js
+
+## Purpose
+Defines the QR Scanner API endpoint.
+
+## Endpoint
+
+POST /scan/qr
+
+## Middleware Used
+
+upload.single("qrImage")
+
+## Flow
+
+Client
+↓
+Upload Image
+↓
+Multer Middleware
+↓
+Controller
+↓
+QR Service
+
+## Notes
+
+The uploaded image is available as `req.file`.
+
+The frontend must send the image using the field name `qrImage`.
+
+
+## What's New?  There are only two new lines here.
+### 1️. Import the middleware
+### const upload = require("../middleware/uploadMiddleware");
+**This imports the Multer configuration that we created.**
+
+### Use the middleware  
+upload.single("qrImage")
+_This tells Express: **"Before going to the controller, accept one uploaded image whose field name is qrImage."**_
+
+**So the flow becomes:**
+User Uploads Image
+
+↓
+
+upload.single("qrImage")
+
+↓
+
+req.file is created
+
+↓
+
+qrController
+
+
+### Why "qrImage"?
+**Because when the frontend sends the image, it will send it like this:**
+_formData.append("qrImage", selectedFile);_  **The name must match.**
+
+**If the frontend sends:** _**formData.append("image", selectedFile);**_
+
+**then:** _upload.single("qrImage")_  won't find it.
