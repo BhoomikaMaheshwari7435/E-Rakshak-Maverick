@@ -7,6 +7,9 @@ const healthRoutes = require("./routes/healthRoutes");
 const authRoutes = require("./routes/authRoutes");
 const qrRoutes = require("./routes/qrRoutes");
 const smsRoutes = require("./routes/smsRoutes");
+const whatsappRoutes = require("./routes/whatsappRoutes");
+
+
 
 const app = express();
 
@@ -20,6 +23,7 @@ app.use("/auth", authRoutes);
 app.use("/api", healthRoutes);
 app.use("/api", qrRoutes);
 app.use("/api", smsRoutes);
+app.use("/api", whatsappRoutes);
 
 
 app.get("/", (req, res) => {
