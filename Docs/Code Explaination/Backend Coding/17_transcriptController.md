@@ -171,4 +171,62 @@ _return res.status(200).json({_
 
 ## 6. _catch(error)_
 
-If anything fails  =>  API  ==>  
+If anything fails  =>  API  =>  Internet  =>  Risk Analyzer  =>  Unexpected Error
+The controller catches it.
+
+
+## Why do we use return before res.status()?
+**Example :** _return res.status(400).json(...);_
+Once the response is sent, The function immediately stops.
+**Otherwise,** Node.js may continue executing the remaining code.
+Using return is considered a clean and professional practice.
+
+
+## Architecture Flow
+Frontend
+
+↓
+
+POST /api/scan/transcript
+
+↓
+
+uploadMiddleware
+
+↓
+
+req.file
+
+↓
+
+transcriptController
+
+↓
+
+transcriptService
+
+↓
+
+Hugging Face Whisper API
+
+↓
+
+Transcript
+
+↓
+
+riskAnalyzer
+
+↓
+
+reportService
+
+↓
+
+JSON Response
+
+↓
+
+Frontend
+
+
