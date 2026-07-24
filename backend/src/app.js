@@ -8,6 +8,7 @@ const authRoutes = require("./routes/authRoutes");
 const qrRoutes = require("./routes/qrRoutes");
 const smsRoutes = require("./routes/smsRoutes");
 const whatsappRoutes = require("./routes/whatsappRoutes");
+const transcriptRoutes = require("./routes/transcriptRoutes");
 
 
 
@@ -24,6 +25,7 @@ app.use("/api", healthRoutes);
 app.use("/api", qrRoutes);
 app.use("/api", smsRoutes);
 app.use("/api", whatsappRoutes);
+app.use("/api", transcriptRoutes);
 
 
 app.get("/", (req, res) => {
