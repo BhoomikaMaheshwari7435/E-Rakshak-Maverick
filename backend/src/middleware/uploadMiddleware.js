@@ -4,7 +4,7 @@ const path = require("path");
 // Configure how uploaded files are stored
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        cb(null, path.join(__dirname, "../../uploads"));
     },
 
     filename: (req, file, cb) => {
@@ -16,20 +16,49 @@ const storage = multer.diskStorage({
 // Allow only image files
 const fileFilter = (req, file, cb) => {
 
-    const allowedTypes = /jpeg|jpg|png/;
 
-    const isValidExtension = allowedTypes.test(
-        path.extname(file.originalname).toLowerCase()
-    );
 
-    const isValidMimeType = allowedTypes.test(file.mimetype);
+
+
+    // Allowed file extensions
+    const allowedExtensions = /\.(jpg|jpeg|png|mp3|wav|m4a|mpeg)$/i;
+
+    // Allowed MIME types
+    const allowedMimeTypes = [
+        "image/jpeg",
+        "image/png",
+        "audio/mpeg",
+        "audio/mp3",
+        "audio/wav",
+        "audio/x-wav",
+        "audio/mp4",
+        "audio/x-m4a",
+        "audio/m4a",
+        "video/mpeg"
+    ];
+
+    const isValidExtension = allowedExtensions.test(file.originalname);
+
+    const isValidMimeType = allowedMimeTypes.includes(file.mimetype);
+    console.log("Original Name:", file.originalname);
+    console.log("Extension:", path.extname(file.originalname));
+    console.log("Mime Type:", file.mimetype);
+
 
     if (isValidExtension && isValidMimeType) {
         cb(null, true);
     } else {
-        cb(new Error("Only JPG, JPEG and PNG images are allowed."));
+        cb(
+            new Error(
+                "Only JPG, JPEG, PNG, MP3, WAV and M4A files are allowed."
+            )
+        );
     }
 };
+
+
+
+
 
 const upload = multer({
     storage,
