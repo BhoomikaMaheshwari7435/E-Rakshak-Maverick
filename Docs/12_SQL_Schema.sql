@@ -290,3 +290,159 @@ CREATE TABLE settings (
         ON DELETE CASCADE
 
 );
+
+
+
+
+-- Schema Changed From Here
+
+ALTER TABLE users
+ADD COLUMN google_id TEXT UNIQUE;
+
+ALTER TYPE scam_category_enum ADD VALUE IF NOT EXISTS 'SUSPICIOUS';
+ALTER TYPE scam_category_enum ADD VALUE IF NOT EXISTS 'UNKNOWN';
+
+-- 1. Add Indexes
+-- Users
+CREATE INDEX IF NOT EXISTS idx_users_email
+ON users(email);
+
+CREATE INDEX IF NOT EXISTS idx_users_google_id
+ON users(google_id);
+
+-- Files
+CREATE INDEX IF NOT EXISTS idx_files_user
+ON files(user_id);
+
+-- Analysis History
+CREATE INDEX IF NOT EXISTS idx_analysis_user
+ON analysis_history(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_analysis_file
+ON analysis_history(file_id);
+
+-- AI Results
+CREATE INDEX IF NOT EXISTS idx_ai_analysis
+ON ai_results(analysis_id);
+
+-- Reports
+CREATE INDEX IF NOT EXISTS idx_reports_analysis
+ON reports(analysis_id);
+
+-- Settings
+CREATE INDEX IF NOT EXISTS idx_settings_user
+ON settings(user_id);
+
+--2. Automatically Update updated_at
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Users Trigger
+CREATE TRIGGER trg_users_updated_at
+
+BEFORE UPDATE ON users
+
+FOR EACH ROW
+
+EXECUTE FUNCTION update_updated_at_column();
+
+
+-- Settings Trigger
+CREATE TRIGGER trg_settings_updated_at
+
+BEFORE UPDATE ON settings
+
+FOR EACH ROW
+
+EXECUTE FUNCTION update_updated_at_column();
+
+
+--3. Automatically Set analyzed_at'
+CREATE OR REPLACE FUNCTION set_analysis_completed_time()
+RETURNS TRIGGER AS $$
+BEGIN
+
+IF NEW.analysis_status='COMPLETED'
+AND OLD.analysis_status<>'COMPLETED'
+
+THEN
+
+NEW.analyzed_at=NOW();
+
+END IF;
+
+RETURN NEW;
+
+END;
+
+$$ LANGUAGE plpgsql;
+
+
+-- Trigger
+CREATE TRIGGER trg_analysis_completed
+
+BEFORE UPDATE
+
+ON analysis_history
+
+FOR EACH ROW
+
+EXECUTE FUNCTION set_analysis_completed_time();
+
+-- 4. Enable UUID Generation (if not already)
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- 5. Verify Constraints
+SELECT *
+FROM information_schema.table_constraints;
+
+-- 6. Verify Foreign Keys
+SELECT
+
+tc.table_name,
+
+kcu.column_name,
+
+ccu.table_name AS foreign_table,
+
+ccu.column_name AS foreign_column
+
+FROM information_schema.table_constraints tc
+
+JOIN information_schema.key_column_usage kcu
+
+ON tc.constraint_name=kcu.constraint_name
+
+JOIN information_schema.constraint_column_usage ccu
+
+ON ccu.constraint_name=tc.constraint_name
+
+WHERE tc.constraint_type='FOREIGN KEY';
+
+
+-- 7. Verify Indexes'
+SELECT *
+
+FROM pg_indexes
+
+WHERE schemaname='public';
+
+
+-- 8. Test Everything
+SELECT * FROM users;
+
+SELECT * FROM files;
+
+SELECT * FROM analysis_history;
+
+SELECT * FROM ai_results;
+
+SELECT * FROM reports;
+
+SELECT * FROM settings;
+
