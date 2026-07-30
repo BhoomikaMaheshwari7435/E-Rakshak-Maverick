@@ -71,4 +71,10 @@ exports.scanQRCode = async (userId, file) => {
         report
     };
 
+    st.divider()
+
+    st.caption(t["footer1"])
+    st.caption(t["footer2"])
+    st.caption(t["footer3"])
+
 };
