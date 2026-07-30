@@ -17,8 +17,17 @@ exports.scanQRCode = async (req, res) => {
             });
         }
 
+
+        const { userId } = req.body;
+
+
         // Send uploaded image to service
-        const result = await qrService.scanQRCode(req.file);
+        const result = await qrService.scanQRCode(
+            userId,
+            req.file
+        );
+
+
 
         return res.status(200).json({
             success: true,

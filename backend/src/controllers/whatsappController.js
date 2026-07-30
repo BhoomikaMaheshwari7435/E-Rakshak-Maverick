@@ -13,12 +13,13 @@ const whatsappService = require("../services/whatsapp/whatsappService");
  * Scan WhatsApp Message
  * Route : POST /api/scan/whatsapp
  */
-exports.scanWhatsApp = (req, res) => {
+exports.scanWhatsApp = async (req, res) => {
 
     try {
 
         // Extract WhatsApp message from request body
         const { message } = req.body;
+        const { userId } = req.body;
 
         // Validate user input
         if (!message) {
@@ -29,7 +30,10 @@ exports.scanWhatsApp = (req, res) => {
         }
 
         // Send message to service for analysis
-        const result = whatsappService.scanWhatsApp(message);
+        const result = await whatsappService.scanWhatsApp(
+            userId,
+            message
+        );
 
         // Send successful response
         return res.status(200).json({

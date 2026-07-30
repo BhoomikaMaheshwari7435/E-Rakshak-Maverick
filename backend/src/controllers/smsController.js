@@ -13,7 +13,14 @@ exports.scanSMS = async (req, res) => {
             });
         }
 
-        const result = smsService.scanSMS(message);
+        const { userId } = req.body; // or req.user, depending on your auth
+
+        const result = await smsService.scanSMS(
+            userId,
+            message
+        );
+
+
 
         return res.status(200).json({
             success: true,

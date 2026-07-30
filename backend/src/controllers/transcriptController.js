@@ -28,8 +28,16 @@ exports.scanTranscript = async (req, res) => {
             });
         }
 
+
+        const { userId } = req.body;
+
+
+
         // Send uploaded audio file to Transcript Service
-        const result = await transcriptService.scanTranscript(req.file);
+        const result = await transcriptService.scanTranscript(
+            userId,
+            req.file
+        );
 
         // Return successful response
         return res.status(200).json({
