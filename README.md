@@ -75,12 +75,12 @@ E-Rakshak aims to simplify cyber safety by providing an easy-to-use platform tha
 
 Developed as part of the **Maverick AI Effect Challenge 2026**.
 BY 
-Bhoomika Maheshwari - CE
-Jahanvi Yadav - IT
-Arunima Singh - CE
-Mohini Jadav - CE 
+Bhoomika Maheshwari - CE ,  
+Jahanvi Yadav - IT , 
+Arunima Singh - CE, 
+Mohini Jadav - CE , 
 Jenny Bhandari - CE
-
+ 
 
 
 ---
