@@ -5,7 +5,7 @@
 // ======================================================
 
 const { OAuth2Client } = require("google-auth-library");
-const supabase = require("../../config/supabaseClient");
+const databaseService = require("../database/databaseService");
 
 const client = new OAuth2Client();
 
@@ -32,28 +32,12 @@ exports.verifyGoogleUser = async (idToken) => {
             .eq("google_id", payload.sub)
             .single();
 
-        // If user doesn't exist, create one
-        if (!user) {
-
-            const { data: newUser, error: insertError } = await supabase
-                .from("users")
-                .insert([
-                    {
-                        google_id: payload.sub,
-                        full_name: payload.name,
-                        email: payload.email,
-                        profile_picture: payload.picture,
-                        preferred_language: "English"
-                    }
-                ])
-                .select()
-                .single();
-
-            if (insertError)
-                throw insertError;
-
-            user = newUser;
-        }
+        const user = await databaseService.saveUser({
+    google_id: payload.sub,
+    full_name: payload.name,
+    email: payload.email,
+    profile_picture: payload.picture
+});
 
         return {
             success: true,

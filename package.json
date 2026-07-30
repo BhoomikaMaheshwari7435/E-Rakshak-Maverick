@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/BhoomikaMaheshwari7435/E-Rakshak-Maverick#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.7",
+    "@huggingface/inference": "^4.13.23",
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.111.0",
     "axios": "^1.18.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

@@ -3,9 +3,10 @@ const jsQR = require("jsqr");
 
 const riskAnalyzer = require("../analysis/riskAnalyzer");
 const reportService = require("../report/reportService");
+const databaseService = require("../database/databaseService");
 
 // Part 2 Create the Scanner Function
-exports.scanQRCode = async (file) => {
+exports.scanQRCode = async (userId, file) => {
 
     // Read uploaded image
     const image = await Jimp.read(file.path);
@@ -38,6 +39,32 @@ exports.scanQRCode = async (file) => {
 
     // Generate formatted report
     const report = reportService.generateReport(analysisResult);
+
+
+    const savedFile = await databaseService.saveFile(
+        userId,
+        file
+    );
+
+    const analysis = await databaseService.saveAnalysis(
+        userId,
+        "QR",
+        extractedText,
+        savedFile.file_id
+    );
+
+    await databaseService.saveAIResult(
+        analysis.analysis_id,
+        analysisResult
+    );
+
+
+    await databaseService.saveReport(
+        analysis.analysis_id,
+        report
+    );
+
+    
 
     return {
         extractedText,

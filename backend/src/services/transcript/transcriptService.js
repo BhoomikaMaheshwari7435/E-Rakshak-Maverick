@@ -15,13 +15,16 @@
  *
  * Author: Team E-Rakshak
  * ============================================================
- */
+    */
 
 
 
+/*
 
+const { InferenceClient } = require("@huggingface/inference");
+const fs = require("fs");
 
-const axios = require("axios");
+const { InferenceClient } = require("@huggingface/inference");
 const fs = require("fs");
 
 // Import Risk Analyzer Service
@@ -30,11 +33,21 @@ const riskAnalyzer = require("../analysis/riskAnalyzer");
 // Import Report Generator Service
 const reportService = require("../report/reportService");
 
+
+const client = new InferenceClient(process.env.HF_API_TOKEN);
+
+
 /**
  * Analyze Call Transcript
  * @param {Object} file - Uploaded audio file received from controller
  * @returns {Object} Analysis report
- */
+ 
+
+
+
+
+
+
 exports.scanTranscript = async (file) => {
 
     try {
@@ -121,3 +134,166 @@ console.log("Sending MIME Type:", contentType);
 }
 
 };      
+
+
+*/ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * ============================================================
+ * E-Rakshak Maverick
+ * Transcript Service
+ * ------------------------------------------------------------
+ * Purpose:
+ * Handles call transcript analysis by using the Risk Analyzer
+ * and Report Service to detect scam-related conversations.
+ *
+ * Responsibilities:
+ * - Receive transcript audio from controller
+ * - Convert speech to text using Hugging Face Whisper
+ * - Analyze transcript for scam indicators
+ * - Generate formatted analysis report
+ * - Return transcript with generated report
+ *
+ * Author: Team E-Rakshak
+ * ============================================================
+ */
+
+const fs = require("fs");
+const axios = require("axios");
+const FormData = require("form-data");
+
+
+const PYTHON_API_URL = process.env.PYTHON_API_URL;
+
+
+// Import Risk Analyzer Service
+const riskAnalyzer = require("../analysis/riskAnalyzer");
+
+// Import Report Generator Service
+const reportService = require("../report/reportService");
+
+const databaseService = require("../database/databaseService");
+
+
+
+
+
+
+/**
+ * Analyze Call Transcript
+ * @param {Object} file - Uploaded audio file received from controller
+ * @returns {Object} Analysis report
+ */
+exports.scanTranscript = async (userId, file) => {
+
+    try {
+
+        console.log("======================================");
+        console.log("Transcript Service Started");
+        console.log("======================================");
+
+        console.log("Uploaded File:", file.originalname);
+        console.log("File Path:", file.path);
+        console.log("Mime Type:", file.mimetype);
+
+        console.log("Sending audio to Python Whisper Server...");
+
+        // Speech-to-Text using Whisper
+        const formData = new FormData();
+
+            formData.append(
+                "file",
+                fs.createReadStream(file.path)
+            );
+
+            const response = await axios.post(
+            process.env.PYTHON_API_URL,
+            formData,
+            {
+                headers: formData.getHeaders()
+            }
+        );
+
+            const transcript = response.data.transcript || "";
+
+
+
+
+        console.log("======================================");
+        console.log("Transcript:");
+        console.log(transcript);
+        console.log("======================================");
+
+        // Analyze transcript
+        const analysisResult = riskAnalyzer.analyze(transcript);
+
+        // Generate report
+        const report = reportService.generateReport(analysisResult);
+
+
+
+
+
+        const savedFile = await databaseService.saveFile(
+            userId,
+            file
+        );
+
+        const analysis = await databaseService.saveAnalysis(
+            userId,
+            "AUDIO",
+            transcript,
+            savedFile.file_id
+        );
+
+        await databaseService.saveAIResult(
+            analysis.analysis_id,
+            analysisResult
+        );
+
+        await databaseService.saveReport(
+            analysis.analysis_id,
+            report
+        );
+
+
+
+
+
+        // Return final response
+        return {
+            transcript,
+            report
+        };
+
+    } catch (error) {
+
+        console.error("========== TRANSCRIPTION ERROR ==========");
+
+        console.error("Message:", error.message);
+
+        if (error.response) {
+            console.error("Status:", error.response.status);
+            console.error("Response:", error.response.data);
+        }
+
+        console.error(error);
+
+        console.error("===================================");
+
+        throw error;
+    }
+
+};
