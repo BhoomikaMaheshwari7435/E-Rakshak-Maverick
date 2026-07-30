@@ -34,8 +34,6 @@ E-Rakshak aims to simplify cyber safety by providing an easy-to-use platform tha
 
 **Frontend**
 - Streamlit
-- HTML
-- CSS
 
 **Backend**
 - Node.js
@@ -79,4 +77,4 @@ Developed as part of the **Maverick AI Effect Hackathon 2026**.
 
 ---
 
-> **E-Rakshak — Empowering users with smarter cyber awareness for a safer digital future.**
+> **E-Rakshak - Empowering users with smarter cyber awareness for a safer digital future.**
